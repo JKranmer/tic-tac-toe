@@ -1,10 +1,13 @@
-import { useGame } from './hooks/useGame';
+import { useGame, type GameMode } from './hooks/useGame';
 import { Board } from './components/Board';
 import { GameInfo } from './components/GameInfo';
 import { WinnerModal } from './components/WinnerModal';
+import { useState } from 'react';
+import clsx from 'clsx';
 
 function App() {
-  const { squares, xIsNext, winner, winningLine, scores, resetGame, handleSquareClick, resetScores } = useGame();
+  const { squares, xIsNext, winner, winningLine, scores, resetGame, handleSquareClick, resetScores, nextToRemove, gameMode, setGameMode } = useGame();
+  const [showHints, setShowHints] = useState(true);
 
   const gameEnded = Boolean(winner);
 
@@ -21,6 +24,24 @@ function App() {
         Tic-Tac-Toe
       </h1>
 
+      {/* Game Mode Selector */}
+      <div className="bg-gray-800 p-1 rounded-lg flex mb-6">
+        {(['classic', 'infinite'] as GameMode[]).map((mode) => (
+          <button
+            key={mode}
+            onClick={() => setGameMode(mode)}
+            className={clsx(
+              "px-6 py-2 rounded-md font-medium transition-all duration-200",
+              gameMode === mode
+                ? "bg-gray-700 text-white shadow-sm"
+                : "text-gray-400 hover:text-gray-200 hover:bg-gray-800/50"
+            )}
+          >
+            {mode.charAt(0).toUpperCase() + mode.slice(1)} Mode
+          </button>
+        ))}
+      </div>
+
       <GameInfo xIsNext={xIsNext} scores={scores} />
 
       <Board
@@ -29,21 +50,37 @@ function App() {
         winningLine={winningLine}
         xIsNext={xIsNext}
         gameEnded={gameEnded}
+        nextToRemove={nextToRemove}
+        showHints={showHints}
       />
 
-      <div className="mt-8 flex gap-4">
-        <button
-          onClick={resetGame}
-          className="px-6 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg font-semibold transition-colors shadow-md"
-        >
-          Reset Board
-        </button>
-        <button
-          onClick={resetScores}
-          className="px-6 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg font-semibold transition-colors shadow-md"
-        >
-          Reset Scores
-        </button>
+      <div className="mt-8 flex flex-col items-center gap-4">
+        {gameMode === 'infinite' && (
+          <label className="flex items-center gap-2 cursor-pointer text-gray-300 hover:text-white transition-colors">
+            <input
+              type="checkbox"
+              checked={showHints}
+              onChange={(e) => setShowHints(e.target.checked)}
+              className="w-5 h-5 rounded border-gray-600 text-blue-500 focus:ring-blue-500 bg-gray-800"
+            />
+            <span className="font-medium select-none">Show Infinite Mode Hints</span>
+          </label>
+        )}
+
+        <div className="flex gap-4">
+          <button
+            onClick={resetGame}
+            className="px-6 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg font-semibold transition-colors shadow-md"
+          >
+            Reset Board
+          </button>
+          <button
+            onClick={resetScores}
+            className="px-6 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg font-semibold transition-colors shadow-md"
+          >
+            Reset Scores
+          </button>
+        </div>
       </div>
 
       <WinnerModal winner={winner} onReset={resetGame} />
