@@ -1,5 +1,7 @@
 import { useGame, type GameMode } from './hooks/useGame';
+import { useUltimateGame } from './hooks/useUltimateGame';
 import { Board } from './components/Board';
+import { UltimateBoard } from './components/UltimateBoard';
 import { GameInfo } from './components/GameInfo';
 import { WinnerModal } from './components/WinnerModal';
 import { useState } from 'react';
@@ -7,9 +9,40 @@ import clsx from 'clsx';
 
 function App() {
   const { squares, xIsNext, winner, winningLine, scores, resetGame, handleSquareClick, resetScores, nextToRemove, gameMode, setGameMode } = useGame();
+  const ultimateGame = useUltimateGame();
   const [showHints, setShowHints] = useState(true);
 
-  const gameEnded = Boolean(winner);
+
+
+  // Derived state based on active mode
+  const currentXIsNext = gameMode === 'ultimate' ? ultimateGame.xIsNext : xIsNext;
+  const currentScores = gameMode === 'ultimate' ? ultimateGame.scores : scores;
+  const currentWinner = gameMode === 'ultimate' ? ultimateGame.winner : winner;
+  const gameEnded = Boolean(currentWinner);
+
+  const handleModeSwitch = (mode: GameMode) => {
+    setGameMode(mode);
+    if (mode === 'ultimate') {
+      ultimateGame.resetGame();
+    }
+    // classic/infinite are reset internally by setGameMode in useGame
+  };
+
+  const handleResetGame = () => {
+    if (gameMode === 'ultimate') {
+      ultimateGame.resetGame();
+    } else {
+      resetGame();
+    }
+  };
+
+  const handleResetScores = () => {
+    if (gameMode === 'ultimate') {
+      ultimateGame.resetScores();
+    } else {
+      resetScores();
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center p-4 relative overflow-hidden font-sans">
@@ -25,13 +58,13 @@ function App() {
       </h1>
 
       {/* Game Mode Selector */}
-      <div className="bg-gray-800 p-1 rounded-lg flex mb-6">
-        {(['classic', 'infinite'] as GameMode[]).map((mode) => (
+      <div className="bg-gray-800 p-1 rounded-lg flex mb-6 flex-wrap justify-center gap-1">
+        {(['classic', 'infinite', 'ultimate'] as GameMode[]).map((mode) => (
           <button
             key={mode}
-            onClick={() => setGameMode(mode)}
+            onClick={() => handleModeSwitch(mode)}
             className={clsx(
-              "px-6 py-2 rounded-md font-medium transition-all duration-200",
+              "px-4 sm:px-6 py-2 rounded-md font-medium transition-all duration-200 text-sm sm:text-base",
               gameMode === mode
                 ? "bg-gray-700 text-white shadow-sm"
                 : "text-gray-400 hover:text-gray-200 hover:bg-gray-800/50"
@@ -42,17 +75,26 @@ function App() {
         ))}
       </div>
 
-      <GameInfo xIsNext={xIsNext} scores={scores} />
+      <GameInfo xIsNext={currentXIsNext} scores={currentScores} />
 
-      <Board
-        squares={squares}
-        onSquareClick={handleSquareClick}
-        winningLine={winningLine}
-        xIsNext={xIsNext}
-        gameEnded={gameEnded}
-        nextToRemove={nextToRemove}
-        showHints={showHints}
-      />
+      {gameMode === 'ultimate' ? (
+        <UltimateBoard
+          localBoards={ultimateGame.localBoards}
+          globalGrid={ultimateGame.globalGrid}
+          onSquareClick={ultimateGame.handleSquareClick}
+          activeQuadrant={ultimateGame.activeQuadrant}
+          gameEnded={gameEnded}
+        />
+      ) : (
+        <Board
+          squares={squares}
+          onSquareClick={handleSquareClick}
+          winningLine={winningLine}
+          gameEnded={gameEnded}
+          nextToRemove={nextToRemove}
+          showHints={showHints}
+        />
+      )}
 
       <div className="mt-8 flex flex-col items-center gap-4">
         {gameMode === 'infinite' && (
@@ -69,13 +111,13 @@ function App() {
 
         <div className="flex gap-4">
           <button
-            onClick={resetGame}
+            onClick={handleResetGame}
             className="px-6 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg font-semibold transition-colors shadow-md"
           >
             Reset Board
           </button>
           <button
-            onClick={resetScores}
+            onClick={handleResetScores}
             className="px-6 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg font-semibold transition-colors shadow-md"
           >
             Reset Scores
@@ -83,7 +125,7 @@ function App() {
         </div>
       </div>
 
-      <WinnerModal winner={winner} onReset={resetGame} />
+      <WinnerModal winner={currentWinner} onReset={handleResetGame} />
     </div>
   );
 }
