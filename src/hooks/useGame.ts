@@ -22,6 +22,7 @@ const INITIAL_SQUARES = Array(9).fill(null);
 export function useGame(): GameState {
     const [squares, setSquares] = useState<SquareValue[]>(INITIAL_SQUARES);
     const [xIsNext, setXIsNext] = useState<boolean>(true);
+    const [startingPlayer, setStartingPlayer] = useState<Player>('X'); // Track who started the current game
     const [gameMode, setGameMode] = useState<GameMode>('classic');
     const [xMoves, setXMoves] = useState<number[]>([]);
     const [oMoves, setOMoves] = useState<number[]>([]);
@@ -38,6 +39,8 @@ export function useGame(): GameState {
 
     const handleModeChange = useCallback((newMode: GameMode) => {
         setGameMode(newMode);
+        // Resetting mode always starts with X for fairness/simplicity
+        setStartingPlayer('X');
         setSquares(INITIAL_SQUARES);
         setXIsNext(true);
         setXMoves([]);
@@ -84,11 +87,28 @@ export function useGame(): GameState {
     }, [squares, xIsNext, xMoves, oMoves, gameMode]);
 
     const resetGame = useCallback(() => {
+        let nextStarter = startingPlayer;
+
+        if (winner) {
+            if (winner === 'Draw') {
+                // If draw, invalid next starter is the one who didn't start this game
+                nextStarter = startingPlayer === 'X' ? 'O' : 'X';
+            } else {
+                // Winner starts the next game
+                nextStarter = winner;
+            }
+        } else {
+            // If manual reset (no winner yet), keep the same starter (retry)
+            // or could alternate. Standard convention for retry is same setup.
+            // Let's keep nextStarter as startingPlayer (already set above).
+        }
+
+        setStartingPlayer(nextStarter);
         setSquares(INITIAL_SQUARES);
-        setXIsNext(true);
+        setXIsNext(nextStarter === 'X');
         setXMoves([]);
         setOMoves([]);
-    }, []);
+    }, [winner, startingPlayer]);
 
     const resetScores = useCallback(() => {
         setScores({ X: 0, O: 0 });
