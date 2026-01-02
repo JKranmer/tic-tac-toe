@@ -7,18 +7,20 @@ interface SquareProps {
     onClick: () => void;
     isWinningSquare: boolean;
     disabled: boolean;
+    isNextToRemove?: boolean;
 }
 
-export function Square({ value, onClick, isWinningSquare, disabled }: SquareProps) {
+export function Square({ value, onClick, isWinningSquare, disabled, isNextToRemove }: SquareProps) {
     return (
         <motion.button
             whileHover={!value && !disabled ? { scale: 1.05, backgroundColor: 'rgba(255,255,255,0.1)' } : {}}
             whileTap={!value && !disabled ? { scale: 0.95 } : {}}
             className={clsx(
-                "h-24 w-24 sm:h-32 sm:w-32 bg-gray-800 rounded-xl flex items-center justify-center text-4xl sm:text-6xl shadow-lg border-2",
+                "h-24 w-24 sm:h-32 sm:w-32 bg-gray-800 rounded-xl flex items-center justify-center text-4xl sm:text-6xl shadow-lg border-2 transition-all duration-300",
                 isWinningSquare ? "border-green-400 bg-green-900/20" : "border-gray-700",
                 !value && !disabled && "cursor-pointer hover:border-gray-500",
-                (value || disabled) && "cursor-default"
+                (value || disabled) && "cursor-default",
+                isNextToRemove && "border-red-500/50 opacity-60 animate-pulse bg-red-900/10"
             )}
             onClick={onClick}
             disabled={disabled || !!value}
@@ -33,7 +35,8 @@ export function Square({ value, onClick, isWinningSquare, disabled }: SquareProp
                     transition={{ type: "spring", stiffness: 200, damping: 20 }}
                     className={clsx(
                         "font-extrabold",
-                        value === 'X' ? "text-blue-400" : "text-pink-400"
+                        value === 'X' ? "text-blue-400" : "text-pink-400",
+                        isNextToRemove && "text-red-300"
                     )}
                 >
                     {value}
