@@ -5,13 +5,12 @@ interface BoardProps {
     squares: SquareValue[];
     onSquareClick: (index: number) => void;
     winningLine: number[] | null;
-    xIsNext: boolean;
     gameEnded: boolean;
     nextToRemove: number | null;
     showHints: boolean;
 }
 
-export function Board({ squares, onSquareClick, winningLine, xIsNext, gameEnded, nextToRemove, showHints }: BoardProps) {
+export function Board({ squares, onSquareClick, winningLine, gameEnded, nextToRemove, showHints }: BoardProps) {
 
     return (
         <div className="flex flex-col items-center">
