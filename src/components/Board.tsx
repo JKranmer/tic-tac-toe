@@ -20,7 +20,7 @@ export function Board({ squares, onSquareClick, winningLine, gameEnded, nextToRe
                 </h2>
             )}
 
-            <div className="grid grid-cols-3 gap-3 sm:gap-4 p-4 w-full h-auto max-w-xl aspect-square bg-gray-800/50 rounded-2xl backdrop-blur-sm border border-gray-700 shadow-2xl">
+            <div className="grid grid-cols-3 gap-3 sm:gap-4 p-4 w-full h-auto max-w-xl aspect-square bg-surface/50 rounded-2xl backdrop-blur-sm border border-border shadow-2xl">
                 {squares.map((value, index) => (
                     <Square
                         key={index}

@@ -13,7 +13,7 @@ export function MiniBoard({ squares, onSquareClick, isActive, disabled, winningL
     return (
         <div className={clsx(
             "grid grid-cols-3 gap-1 p-1 rounded-lg transition-all duration-300",
-            isActive ? "bg-blue-900/30 ring-2 ring-blue-400 shadow-[0_0_15px_rgba(60,130,246,0.5)]" : "bg-gray-800/30"
+            isActive ? "bg-brand/20 ring-2 ring-brand shadow-[0_0_15px_rgba(37,99,235,0.3)]" : "bg-surface/50"
         )}>
             {squares.map((value, i) => (
                 <button
@@ -22,9 +22,9 @@ export function MiniBoard({ squares, onSquareClick, isActive, disabled, winningL
                     disabled={disabled || !!value}
                     className={clsx(
                         "w-full aspect-square min-w-[2rem] min-h-[2rem] sm:min-w-[2.5rem] sm:min-h-[2.5rem] rounded flex items-center justify-center text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold transition-all",
-                        value === 'X' ? "text-blue-400 bg-gray-700/50" : value === 'O' ? "text-pink-400 bg-gray-700/50" : "bg-gray-800 hover:bg-gray-700",
-                        winningLine?.includes(i) && "bg-green-900/50",
-                        !value && !disabled && isActive && "hover:bg-blue-500/20 cursor-pointer",
+                        value === 'X' ? "text-brand bg-surface" : value === 'O' ? "text-purple-400 bg-surface" : "bg-surface hover:bg-surface/80",
+                        winningLine?.includes(i) && "bg-green-500/30",
+                        !value && !disabled && isActive && "hover:bg-brand/20 cursor-pointer",
                         (disabled || value) && "cursor-default"
                     )}
                 >

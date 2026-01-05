@@ -6,6 +6,7 @@ import { GameInfo } from './components/GameInfo';
 import { WinnerModal } from './components/WinnerModal';
 import { useState } from 'react';
 import clsx from 'clsx';
+import { ThemeSettings } from './components/ThemeSettings';
 
 function App() {
   const { squares, xIsNext, winner, winningLine, scores, resetGame, handleSquareClick, resetScores, nextToRemove, gameMode, setGameMode } = useGame();
@@ -45,7 +46,8 @@ function App() {
   };
 
   return (
-    <div className="w-full h-full bg-gray-900 text-white flex flex-col items-center justify-center p-4 relative overflow-hidden font-sans">
+    <div className="w-full h-full bg-page text-primary flex flex-col items-center justify-center p-4 relative overflow-hidden font-sans transition-colors duration-500">
+      <ThemeSettings />
       {/* Background decoration */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 opacity-20 pointer-events-none">
         <div className="absolute -top-40 -left-40 w-80 h-80 bg-purple-600 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
@@ -58,7 +60,7 @@ function App() {
       </h1>
 
       {/* Game Mode Selector */}
-      <div className="bg-gray-800 p-1 rounded-lg flex mb-6 flex-wrap justify-center gap-1">
+      <div className="bg-surface/50 p-1 rounded-lg flex mb-6 flex-wrap justify-center gap-1 border border-border">
         {(['classic', 'infinite', 'ultimate'] as GameMode[]).map((mode) => (
           <button
             key={mode}
@@ -66,8 +68,8 @@ function App() {
             className={clsx(
               "px-4 sm:px-6 py-2 rounded-md font-medium transition-all duration-200 text-sm sm:text-base",
               gameMode === mode
-                ? "bg-gray-700 text-white shadow-sm"
-                : "text-gray-400 hover:text-gray-200 hover:bg-gray-800/50"
+                ? "bg-surface text-primary shadow-sm border border-border"
+                : "text-secondary hover:text-primary hover:bg-surface/50"
             )}
           >
             {mode.charAt(0).toUpperCase() + mode.slice(1)} Mode
@@ -98,12 +100,12 @@ function App() {
 
       <div className="mt-8 flex flex-col items-center gap-4">
         {gameMode === 'infinite' && (
-          <label className="flex items-center gap-2 cursor-pointer text-gray-300 hover:text-white transition-colors">
+          <label className="flex items-center gap-2 cursor-pointer text-secondary hover:text-primary transition-colors">
             <input
               type="checkbox"
               checked={showHints}
               onChange={(e) => setShowHints(e.target.checked)}
-              className="w-5 h-5 rounded border-gray-600 text-blue-500 focus:ring-blue-500 bg-gray-800"
+              className="w-5 h-5 rounded border-border text-brand focus:ring-brand bg-surface"
             />
             <span className="font-medium select-none">Show Infinite Mode Hints</span>
           </label>
@@ -112,13 +114,13 @@ function App() {
         <div className="flex gap-4">
           <button
             onClick={handleResetGame}
-            className="px-6 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg font-semibold transition-colors shadow-md"
+            className="px-6 py-2 bg-brand hover:bg-brand/90 text-white rounded-lg font-semibold transition-colors shadow-md"
           >
             Reset Board
           </button>
           <button
             onClick={handleResetScores}
-            className="px-6 py-2 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-lg font-semibold transition-colors shadow-md"
+            className="px-6 py-2 bg-surface hover:bg-surface/80 border border-border text-primary rounded-lg font-semibold transition-colors shadow-md"
           >
             Reset Scores
           </button>
