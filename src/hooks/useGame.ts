@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { calculateWinner, type Player, type SquareValue } from '../utils/calculateWinner';
 
-export type GameMode = 'classic' | 'infinite' | 'ultimate';
+export type GameMode = 'classic' | 'infinite' | 'ultimate' | 'gobble';
 
 export interface GameState {
     squares: SquareValue[];
