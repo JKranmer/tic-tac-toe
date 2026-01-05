@@ -16,7 +16,7 @@ export function Square({ value, onClick, isWinningSquare, disabled, isNextToRemo
             whileHover={!value && !disabled ? { scale: 1.05, backgroundColor: 'rgba(255,255,255,0.1)' } : {}}
             whileTap={!value && !disabled ? { scale: 0.95 } : {}}
             className={clsx(
-                "h-24 w-24 sm:h-32 sm:w-32 bg-gray-800 rounded-xl flex items-center justify-center text-4xl sm:text-6xl shadow-lg border-2 transition-all duration-300",
+                "w-full aspect-square min-w-[6rem] min-h-[6rem] sm:min-w-[8rem] sm:min-h-[8rem] bg-gray-800 rounded-xl flex items-center justify-center text-4xl sm:text-6xl md:text-7xl lg:text-8xl shadow-lg border-2 transition-all duration-300",
                 isWinningSquare ? "border-green-400 bg-green-900/20" : "border-gray-700",
                 !value && !disabled && "cursor-pointer hover:border-gray-500",
                 (value || disabled) && "cursor-default",

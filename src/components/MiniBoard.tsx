@@ -21,7 +21,7 @@ export function MiniBoard({ squares, onSquareClick, isActive, disabled, winningL
                     onClick={() => onSquareClick(i)}
                     disabled={disabled || !!value}
                     className={clsx(
-                        "w-8 h-8 sm:w-10 sm:h-10 rounded flex items-center justify-center text-lg sm:text-xl font-bold transition-all",
+                        "w-full aspect-square min-w-[2rem] min-h-[2rem] sm:min-w-[2.5rem] sm:min-h-[2.5rem] rounded flex items-center justify-center text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold transition-all",
                         value === 'X' ? "text-blue-400 bg-gray-700/50" : value === 'O' ? "text-pink-400 bg-gray-700/50" : "bg-gray-800 hover:bg-gray-700",
                         winningLine?.includes(i) && "bg-green-900/50",
                         !value && !disabled && isActive && "hover:bg-blue-500/20 cursor-pointer",

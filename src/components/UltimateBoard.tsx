@@ -13,7 +13,7 @@ interface UltimateBoardProps {
 
 export function UltimateBoard({ localBoards, globalGrid, onSquareClick, activeQuadrant, gameEnded }: UltimateBoardProps) {
     return (
-        <div className="grid grid-cols-3 gap-2 sm:gap-4 p-2 sm:p-4 bg-gray-900 rounded-2xl max-w-2xl mx-auto">
+        <div className="grid grid-cols-3 gap-2 sm:gap-4 p-2 sm:p-4 w-full h-auto max-w-4xl aspect-square bg-gray-900 rounded-2xl mx-auto">
             {localBoards.map((board, boardIndex) => {
                 const status = globalGrid[boardIndex];
                 const isActive = !gameEnded && status === null && (activeQuadrant === null || activeQuadrant === boardIndex);
