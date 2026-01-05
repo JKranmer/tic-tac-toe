@@ -7,8 +7,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        page: 'var(--bg-page)',
-        surface: 'var(--bg-surface)',
+        page: 'rgb(var(--bg-page-rgb) / <alpha-value>)',
+        surface: 'rgb(var(--bg-surface-rgb) / <alpha-value>)',
         primary: 'var(--text-primary)',
         secondary: 'var(--text-secondary)',
         border: 'var(--border-default)',

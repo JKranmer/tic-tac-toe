@@ -27,6 +27,7 @@ export function UltimateBoard({ localBoards, globalGrid, onSquareClick, activeQu
                             isActive={isActive}
                             disabled={gameEnded || isClosed || (!isActive && activeQuadrant !== null)}
                             winningLine={null} // Local winning line could be passed if we tracked it in hook
+                            boardWinner={status}
                         />
 
                         {/* Overlay for closed/won boards */}
