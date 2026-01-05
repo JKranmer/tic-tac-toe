@@ -55,6 +55,7 @@ export function ThemeSettings() {
                                         setTheme(t.id as any);
                                         setIsOpen(false);
                                     }}
+                                    aria-label={`Select ${t.label} Theme`}
                                     className={clsx(
                                         "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
                                         theme === t.id

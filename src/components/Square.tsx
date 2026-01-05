@@ -15,6 +15,8 @@ export function Square({ value, onClick, isWinningSquare, disabled, isNextToRemo
         <motion.button
             whileHover={!value && !disabled ? { scale: 1.05, backgroundColor: 'var(--bg-surface)' } : {}}
             whileTap={!value && !disabled ? { scale: 0.95 } : {}}
+            aria-label={value ? `Square ${value}` : "Empty Square"}
+            title={value ? `Square ${value}` : "Empty Square"}
             className={clsx(
                 "w-full aspect-square min-w-[6rem] min-h-[6rem] sm:min-w-[8rem] sm:min-h-[8rem] bg-surface rounded-xl flex items-center justify-center text-4xl sm:text-6xl md:text-7xl lg:text-8xl shadow-lg border-2 transition-all duration-300",
                 isWinningSquare ? "border-green-400 bg-green-500/20" : "border-border",

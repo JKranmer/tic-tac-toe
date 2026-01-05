@@ -22,6 +22,8 @@ export function MiniBoard({ squares, onSquareClick, isActive, disabled, winningL
                     key={i}
                     whileHover={!value && !disabled && isActive ? { scale: 0.95 } : {}}
                     whileTap={!value && !disabled && isActive ? { scale: 0.9 } : {}}
+                    aria-label={value ? `Square ${value}` : "Empty Square"}
+                    title={value ? `Square ${value}` : "Empty Square"}
                     onClick={() => onSquareClick(i)}
                     disabled={disabled || !!value}
                     className={clsx(
