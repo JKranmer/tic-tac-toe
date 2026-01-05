@@ -33,7 +33,7 @@ export function UltimateBoard({ localBoards, globalGrid, onSquareClick, activeQu
                         {isClosed && (
                             <div className={clsx(
                                 "absolute inset-0 flex items-center justify-center rounded-lg backdrop-blur-sm bg-page/80 z-10",
-                                status === 'X' ? "text-brand" : "text-purple-400"
+                                status === 'X' ? "text-player-x" : "text-player-o"
                             )}>
                                 <span className={clsx(
                                     "text-6xl sm:text-8xl font-black",

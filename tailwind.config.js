@@ -13,6 +13,10 @@ export default {
         secondary: 'var(--text-secondary)',
         border: 'var(--border-default)',
         brand: 'var(--accent-brand)',
+        'player-x': 'var(--color-player-x)',
+        'player-o': 'var(--color-player-o)',
+        'gradient-start': 'var(--gradient-start)',
+        'gradient-end': 'var(--gradient-end)',
       },
       fontFamily: {
         primary: ['Asimovian', 'Rubik', 'sans-serif'],

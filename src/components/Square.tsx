@@ -35,7 +35,7 @@ export function Square({ value, onClick, isWinningSquare, disabled, isNextToRemo
                     transition={{ type: "spring", stiffness: 200, damping: 20 }}
                     className={clsx(
                         "font-extrabold",
-                        value === 'X' ? "text-brand" : "text-purple-400",
+                        value === 'X' ? "text-player-x" : "text-player-o",
                         isNextToRemove && "text-red-400"
                     )}
                 >
