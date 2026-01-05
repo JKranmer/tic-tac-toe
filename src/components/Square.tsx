@@ -13,14 +13,16 @@ interface SquareProps {
 export function Square({ value, onClick, isWinningSquare, disabled, isNextToRemove }: SquareProps) {
     return (
         <motion.button
-            whileHover={!value && !disabled ? { scale: 1.05, backgroundColor: 'rgba(255,255,255,0.1)' } : {}}
+            whileHover={!value && !disabled ? { scale: 1.05, backgroundColor: 'var(--bg-surface)' } : {}}
             whileTap={!value && !disabled ? { scale: 0.95 } : {}}
+            aria-label={value ? `Square ${value}` : "Empty Square"}
+            title={value ? `Square ${value}` : "Empty Square"}
             className={clsx(
-                "h-24 w-24 sm:h-32 sm:w-32 bg-gray-800 rounded-xl flex items-center justify-center text-4xl sm:text-6xl shadow-lg border-2 transition-all duration-300",
-                isWinningSquare ? "border-green-400 bg-green-900/20" : "border-gray-700",
-                !value && !disabled && "cursor-pointer hover:border-gray-500",
+                "w-full aspect-square min-w-[6rem] min-h-[6rem] sm:min-w-[8rem] sm:min-h-[8rem] bg-surface rounded-xl flex items-center justify-center text-4xl sm:text-6xl md:text-7xl lg:text-8xl shadow-lg border-2 transition-all duration-300",
+                isWinningSquare ? "border-green-400 bg-green-500/20" : "border-border",
+                !value && !disabled && "cursor-pointer hover:border-secondary",
                 (value || disabled) && "cursor-default",
-                isNextToRemove && "border-red-500/50 opacity-60 animate-pulse bg-red-900/10"
+                isNextToRemove && "border-red-500/50 opacity-60 animate-pulse bg-red-500/10"
             )}
             onClick={onClick}
             disabled={disabled || !!value}
@@ -35,8 +37,8 @@ export function Square({ value, onClick, isWinningSquare, disabled, isNextToRemo
                     transition={{ type: "spring", stiffness: 200, damping: 20 }}
                     className={clsx(
                         "font-extrabold",
-                        value === 'X' ? "text-blue-400" : "text-pink-400",
-                        isNextToRemove && "text-red-300"
+                        value === 'X' ? "text-player-x" : "text-player-o",
+                        isNextToRemove && "text-red-400"
                     )}
                 >
                     {value}
