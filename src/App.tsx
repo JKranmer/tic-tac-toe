@@ -11,11 +11,14 @@ import { useState } from 'react';
 import clsx from 'clsx';
 import { ThemeSettings } from './components/ThemeSettings';
 
+import { RulesModal } from './components/RulesModal';
+
 function App() {
   const { squares, xIsNext, winner, winningLine, scores, resetGame, handleSquareClick, resetScores, nextToRemove, gameMode, setGameMode } = useGame();
   const ultimateGame = useUltimateGame();
   const gobbleGame = useGobbleGame();
   const [showHints, setShowHints] = useState(true);
+  const [rulesMode, setRulesMode] = useState<GameMode | null>(null);
 
   // Derived state based on active mode
   let currentXIsNext = xIsNext;
@@ -107,7 +110,11 @@ function App() {
           </div>
         )}
 
-        <GameInfo xIsNext={currentXIsNext} scores={currentScores} />
+        <GameInfo
+          xIsNext={currentXIsNext}
+          scores={currentScores}
+          onRulesClick={() => setRulesMode(gameMode)}
+        />
 
         {/* Game Boards */}
         {gameMode === 'ultimate' ? (
@@ -192,6 +199,11 @@ function App() {
       </main>
 
       <WinnerModal winner={currentWinner} onReset={handleResetGame} />
+      <RulesModal
+        isOpen={Boolean(rulesMode)}
+        onClose={() => setRulesMode(null)}
+        mode={rulesMode}
+      />
     </div>
   );
 }

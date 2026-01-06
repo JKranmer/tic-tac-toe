@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+
 import { GobblePiece } from './GobblePiece';
 import type { PlayerInventory, PieceSize, SelectedPiece } from '../hooks/useGobbleGame';
 import type { Player } from '../utils/calculateWinner';
