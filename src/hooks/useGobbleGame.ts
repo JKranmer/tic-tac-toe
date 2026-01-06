@@ -1,5 +1,6 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import type { Player } from '../utils/calculateWinner';
+export type { Player };
 
 export type PieceSize = 1 | 2 | 3; // 1: Small (P), 2: Medium (M), 3: Large (G)
 

@@ -11,10 +11,13 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
       manifest: {
-        name: 'Tic-Tac-Toe PWA',
+        name: 'Tic-Tac-Toe',
         short_name: 'TicTacToe',
         description: 'A premium Tic-Tac-Toe game built with React and Tailwind',
         theme_color: '#ffffff',
+        background_color: '#0f172a',
+        display: 'standalone',
+        start_url: '/tic-tac-toe/',
         icons: [
           {
             src: 'pwa-192x192.png',
