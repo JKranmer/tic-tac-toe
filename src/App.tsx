@@ -1,9 +1,11 @@
 import { useGame, type GameMode } from './hooks/useGame';
 import { useUltimateGame } from './hooks/useUltimateGame';
 import { useGobbleGame } from './hooks/useGobbleGame';
+import { useBonesGame } from './hooks/useBonesGame';
 import { Board } from './components/Board';
 import { UltimateBoard } from './components/UltimateBoard';
 import { GobbleBoard } from './components/GobbleBoard';
+import { BonesBoard } from './components/BonesBoard';
 import { Inventory } from './components/Inventory';
 import { GameInfo } from './components/GameInfo';
 import { WinnerModal } from './components/WinnerModal';
@@ -17,6 +19,7 @@ function App() {
   const { squares, xIsNext, winner, winningLine, scores, resetGame, handleSquareClick, resetScores, nextToRemove, gameMode, setGameMode } = useGame();
   const ultimateGame = useUltimateGame();
   const gobbleGame = useGobbleGame();
+  const bonesGame = useBonesGame();
   const [showHints, setShowHints] = useState(true);
   const [rulesMode, setRulesMode] = useState<GameMode | null>(null);
 
@@ -33,6 +36,13 @@ function App() {
     currentXIsNext = gobbleGame.turn === 'X';
     currentScores = gobbleGame.scores;
     currentWinner = gobbleGame.winner;
+  } else if (gameMode === 'bones') {
+    currentXIsNext = bonesGame.turn === 'X';
+    // Use Skull counts as the "Score"
+    const xSkulls = bonesGame.skulls.filter(s => s.owner === 'X').length;
+    const oSkulls = bonesGame.skulls.filter(s => s.owner === 'O').length;
+    currentScores = { X: xSkulls, O: oSkulls };
+    currentWinner = bonesGame.winner;
   }
 
   const gameEnded = Boolean(currentWinner);
@@ -41,18 +51,21 @@ function App() {
     setGameMode(mode);
     if (mode === 'ultimate') ultimateGame.resetGame();
     if (mode === 'gobble') gobbleGame.resetGame();
+    if (mode === 'bones') bonesGame.resetGame();
     // classic/infinite are reset internally by setGameMode in useGame
   };
 
   const handleResetGame = () => {
     if (gameMode === 'ultimate') ultimateGame.resetGame();
     else if (gameMode === 'gobble') gobbleGame.resetGame();
+    else if (gameMode === 'bones') bonesGame.resetGame();
     else resetGame();
   };
 
   const handleResetScores = () => {
     if (gameMode === 'ultimate') ultimateGame.resetScores();
     else if (gameMode === 'gobble') gobbleGame.resetScores();
+    // else if (gameMode === 'bones') bonesGame.resetScores(); // Hook doesn't have resetScores
     else resetScores();
   };
 
@@ -73,7 +86,7 @@ function App() {
 
         {/* Game Mode Selector */}
         <div className="mb-6 flex flex-wrap justify-center gap-2 bg-surface p-2 rounded-xl shadow-lg border border-border">
-          {(['classic', 'infinite', 'ultimate', 'gobble'] as GameMode[]).map((mode) => (
+          {(['classic', 'infinite', 'ultimate', 'gobble', 'bones'] as GameMode[]).map((mode) => (
             <button
               key={mode}
               onClick={() => handleModeSwitch(mode)}
@@ -153,6 +166,22 @@ function App() {
               selectedPiece={gobbleGame.selectedPiece}
               onSelect={gobbleGame.handleSelectInventoryPiece}
             />
+          </div>
+        ) : gameMode === 'bones' ? (
+          <div className="flex flex-col items-center gap-6 w-full">
+            <div className="flex justify-between w-full max-w-sm px-4">
+              <div className={clsx("text-lg font-bold transition-all", bonesGame.turn === 'X' ? "text-player-x scale-110" : "text-secondary")}>
+                Bones: {bonesGame.inventory.X}
+              </div>
+              <div className={clsx("text-lg font-bold transition-all", bonesGame.turn === 'O' ? "text-player-o scale-110" : "text-secondary")}>
+                Bones: {bonesGame.inventory.O}
+              </div>
+            </div>
+            <BonesBoard gameState={bonesGame} />
+            <div className="text-sm text-secondary text-center max-w-md">
+              Form 1x1 squares (Graves) to collect Skulls.
+              Win by aligning 3 Skulls or forming a "Perfect Grave" (4 bones of your color).
+            </div>
           </div>
         ) : (
           <Board
