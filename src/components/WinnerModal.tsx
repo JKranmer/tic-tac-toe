@@ -20,21 +20,21 @@ export function WinnerModal({ winner, onReset }: WinnerModalProps) {
             initial={{ scale: 0.5, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.5, opacity: 0 }}
-            className="bg-gray-800 p-8 rounded-2xl shadow-2xl border border-gray-700 text-center max-w-sm w-full"
+            className="bg-surface p-8 rounded-2xl shadow-2xl border border-border text-center max-w-sm w-full"
           >
-            <h2 className="text-3xl font-bold mb-4 text-white">
+            <h2 className="text-3xl font-bold mb-4 text-primary">
               {winner === 'Draw' ? (
-                <span className="text-gray-300">It's a Draw!</span>
+                <span className="text-secondary">It's a Draw!</span>
               ) : (
                 <>
-                  <span className={winner === 'X' ? 'text-blue-400' : 'text-pink-400'}>{winner}</span> Wins!
+                  <span className={winner === 'X' ? 'text-player-x' : 'text-player-o'}>{winner}</span> Wins!
                 </>
               )}
             </h2>
 
             <button
               onClick={onReset}
-              className="mt-6 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg text-white font-bold text-lg hover:from-blue-600 hover:to-purple-700 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+              className="mt-6 px-6 py-3 bg-brand text-white rounded-lg font-bold text-lg hover:bg-brand/90 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1"
             >
               Play Again
             </button>

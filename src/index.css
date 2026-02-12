@@ -46,12 +46,16 @@
     --text-secondary: #8a7865;
     --border-default: #d1c7b7;
     --accent-brand: #d97706;
-    --color-player-x: #a05a2c;
-    /* Terra Cotta/Brown */
-    --color-player-o: #d97706;
-    /* Orange */
-    --gradient-start: #a05a2c;
-    --gradient-end: #d97706;
+    --color-player-x: #3e2723;
+    /* Dark Espresso Brown (High Contrast) */
+    --color-player-o: #e65100;
+    /* Vibrant Burnt Orange (High Chroma) */
+    --text-primary: #3e2723;
+    /* Match Dark Espresso */
+    --border-default: #d7ccc8;
+    /* Light Warm Grey/Brown */
+    --gradient-start: #3e2723;
+    --gradient-end: #e65100;
   }
 }
 
