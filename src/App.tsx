@@ -103,7 +103,7 @@ function App() {
               key={mode}
               onClick={() => handleModeSwitch(mode)}
               className={clsx(
-                'px-4 py-2 rounded-lg font-bold transition-all duration-300',
+                'px-4 py-2 rounded-lg font-bold transition-transform duration-300',
                 gameMode === mode
                   ? 'bg-brand text-white shadow-md scale-105'
                   : 'text-secondary hover:text-primary hover:bg-page'
