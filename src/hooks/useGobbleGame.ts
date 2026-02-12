@@ -144,29 +144,10 @@ export function useGobbleGame() {
     let newOInv = { ...oInventory };
     const currentInv = turn === 'X' ? newXInv : newOInv;
 
-    // 1. Revelation Check (Classic Mode only, if moving from board)
+    // 1. Lift Piece (if moving from board)
     if (selectedPiece.source === 'board' && selectedPiece.index !== undefined) {
       const sourceStack = [...board[selectedPiece.index]];
-      // Simulate lift
-      sourceStack.pop();
-      // Check if this revealed state causes OPPONENT to win
-      const tempBoard = [...board];
-      tempBoard[selectedPiece.index] = sourceStack;
-
-      const opponent = turn === 'X' ? 'O' : 'X';
-      const revelationResult = checkWinner(tempBoard);
-
-      if (revelationResult.winner === opponent) {
-        // Checkmate by Revelation! Opponent wins immediately.
-        setBoard(tempBoard); // Commit the lift so user sees why they lost
-        setWinner(opponent);
-        setWinningLine(revelationResult.line);
-        setScores((s) => ({ ...s, [opponent]: s[opponent] + 1 }));
-        setSelectedPiece(null);
-        return;
-      }
-
-      // If no instant loss, finalize the lift in the real newBoard
+      sourceStack.pop(); // Lift
       newBoard[selectedPiece.index] = sourceStack;
     } else {
       // Decrement inventory if source is inventory
