@@ -16,7 +16,19 @@ import { ThemeSettings } from './components/ThemeSettings';
 import { RulesModal } from './components/RulesModal';
 
 function App() {
-  const { squares, xIsNext, winner, winningLine, scores, resetGame, handleSquareClick, resetScores, nextToRemove, gameMode, setGameMode } = useGame();
+  const {
+    squares,
+    xIsNext,
+    winner,
+    winningLine,
+    scores,
+    resetGame,
+    handleSquareClick,
+    resetScores,
+    nextToRemove,
+    gameMode,
+    setGameMode
+  } = useGame();
   const ultimateGame = useUltimateGame();
   const gobbleGame = useGobbleGame();
   const bonesGame = useBonesGame();
@@ -39,8 +51,8 @@ function App() {
   } else if (gameMode === 'bones') {
     currentXIsNext = bonesGame.turn === 'X';
     // Use Skull counts as the "Score"
-    const xSkulls = bonesGame.skulls.filter(s => s.owner === 'X').length;
-    const oSkulls = bonesGame.skulls.filter(s => s.owner === 'O').length;
+    const xSkulls = bonesGame.skulls.filter((s) => s.owner === 'X').length;
+    const oSkulls = bonesGame.skulls.filter((s) => s.owner === 'O').length;
     currentScores = { X: xSkulls, O: oSkulls };
     currentWinner = bonesGame.winner;
   }
@@ -91,10 +103,10 @@ function App() {
               key={mode}
               onClick={() => handleModeSwitch(mode)}
               className={clsx(
-                "px-4 py-2 rounded-lg font-bold transition-all duration-300",
+                'px-4 py-2 rounded-lg font-bold transition-all duration-300',
                 gameMode === mode
-                  ? "bg-brand text-white shadow-md scale-105"
-                  : "text-secondary hover:text-primary hover:bg-page"
+                  ? 'bg-brand text-white shadow-md scale-105'
+                  : 'text-secondary hover:text-primary hover:bg-page'
               )}
               aria-label={`Switch to ${mode} Mode`}
             >
@@ -108,26 +120,34 @@ function App() {
           <div className="mb-6 flex items-center justify-center gap-4 bg-surface/50 p-2 rounded-lg border border-border">
             <span className="text-sm font-semibold text-secondary uppercase tracking-wider">Dynamics:</span>
             <button
-              onClick={() => { gobbleGame.setGobbleMode('quick'); gobbleGame.resetGame(); }}
-              className={clsx("px-3 py-1 rounded text-sm font-bold transition-colors", gobbleGame.gobbleMode === 'quick' ? "bg-brand/20 text-brand" : "text-secondary hover:text-primary")}
+              onClick={() => {
+                gobbleGame.setGobbleMode('quick');
+                gobbleGame.resetGame();
+              }}
+              className={clsx(
+                'px-3 py-1 rounded text-sm font-bold transition-colors',
+                gobbleGame.gobbleMode === 'quick' ? 'bg-brand/20 text-brand' : 'text-secondary hover:text-primary'
+              )}
             >
               Quick (Drop Only)
             </button>
             <div className="w-px h-4 bg-border"></div>
             <button
-              onClick={() => { gobbleGame.setGobbleMode('classic'); gobbleGame.resetGame(); }}
-              className={clsx("px-3 py-1 rounded text-sm font-bold transition-colors", gobbleGame.gobbleMode === 'classic' ? "bg-brand/20 text-brand" : "text-secondary hover:text-primary")}
+              onClick={() => {
+                gobbleGame.setGobbleMode('classic');
+                gobbleGame.resetGame();
+              }}
+              className={clsx(
+                'px-3 py-1 rounded text-sm font-bold transition-colors',
+                gobbleGame.gobbleMode === 'classic' ? 'bg-brand/20 text-brand' : 'text-secondary hover:text-primary'
+              )}
             >
               Classic (Move & Drop)
             </button>
           </div>
         )}
 
-        <GameInfo
-          xIsNext={currentXIsNext}
-          scores={currentScores}
-          onRulesClick={() => setRulesMode(gameMode)}
-        />
+        <GameInfo xIsNext={currentXIsNext} scores={currentScores} onRulesClick={() => setRulesMode(gameMode)} />
 
         {/* Game Boards */}
         {gameMode === 'ultimate' ? (
@@ -142,7 +162,7 @@ function App() {
           <div className="flex flex-col items-center gap-6 w-full">
             {/* Player O Inventory (Top) */}
             <Inventory
-              player='O'
+              player="O"
               inventory={gobbleGame.oInventory}
               isActive={!gameEnded && gobbleGame.turn === 'O'}
               selectedPiece={gobbleGame.selectedPiece}
@@ -160,7 +180,7 @@ function App() {
 
             {/* Player X Inventory (Bottom) */}
             <Inventory
-              player='X'
+              player="X"
               inventory={gobbleGame.xInventory}
               isActive={!gameEnded && gobbleGame.turn === 'X'}
               selectedPiece={gobbleGame.selectedPiece}
@@ -170,17 +190,27 @@ function App() {
         ) : gameMode === 'bones' ? (
           <div className="flex flex-col items-center gap-6 w-full">
             <div className="flex justify-between w-full max-w-sm px-4">
-              <div className={clsx("text-lg font-bold transition-all", bonesGame.turn === 'X' ? "text-player-x scale-110" : "text-secondary")}>
+              <div
+                className={clsx(
+                  'text-lg font-bold transition-all',
+                  bonesGame.turn === 'X' ? 'text-player-x scale-110' : 'text-secondary'
+                )}
+              >
                 Bones: {bonesGame.inventory.X}
               </div>
-              <div className={clsx("text-lg font-bold transition-all", bonesGame.turn === 'O' ? "text-player-o scale-110" : "text-secondary")}>
+              <div
+                className={clsx(
+                  'text-lg font-bold transition-all',
+                  bonesGame.turn === 'O' ? 'text-player-o scale-110' : 'text-secondary'
+                )}
+              >
                 Bones: {bonesGame.inventory.O}
               </div>
             </div>
             <BonesBoard gameState={bonesGame} />
             <div className="text-sm text-secondary text-center max-w-md">
-              Form 1x1 squares (Graves) to collect Skulls.
-              Win by aligning 3 Skulls or forming a "Perfect Grave" (4 bones of your color).
+              Form 1x1 squares (Graves) to collect Skulls. Win by aligning 3 Skulls or forming a "Perfect Grave" (4
+              bones of your color).
             </div>
           </div>
         ) : (
@@ -224,15 +254,10 @@ function App() {
             </button>
           </div>
         </div>
-
       </main>
 
       <WinnerModal winner={currentWinner} onReset={handleResetGame} />
-      <RulesModal
-        isOpen={Boolean(rulesMode)}
-        onClose={() => setRulesMode(null)}
-        mode={rulesMode}
-      />
+      <RulesModal isOpen={Boolean(rulesMode)} onClose={() => setRulesMode(null)} mode={rulesMode} />
     </div>
   );
 }
